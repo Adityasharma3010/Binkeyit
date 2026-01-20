@@ -1,18 +1,18 @@
-const forgotPasswordTemplate = ({ name, otp })=>{
-    return `
+const forgotPasswordTemplate = ({ name, otp }) => {
+  return `
 <div>
-    <p>Dear, ${name}</p>
-    <p>You're requested a password reset. Please use following OTP code to reset your password.</p>
-    <div style="background:yellow; font-size:20px;padding:20px;text-align:center;font-weight : 800;">
-        ${otp}
-    </div>
-    <p>This otp is valid for 1 hour only. Enter this otp in the binkeyit website to proceed with resetting your password.</p>
-    <br/>
-    </br>
-    <p>Thanks</p>
-    <p>Binkeyit</p>
+    <p>Hi ${name},</p>
+  <p>Your OTP for forgot password is
+    <span style="color:#50C878; background:#fff; font-weight: 800; font-size: 15px; padding:2px 6px; border-radius:4px;">${otp}</span>.
+    It is valid for 1 hour.
+  </p>
+  <p>Please use this OTP to reset your password. If you did not request a password reset, please ignore this email.</p>
+  <p>For security reasons, do not share this OTP with anyone.</p>
+  <br />
+  <p>Regards,</p>
+  <p>Binkeyit Team</p>
 </div>
-    `
-}
+    `;
+};
 
-export default forgotPasswordTemplate
+export default forgotPasswordTemplate;
