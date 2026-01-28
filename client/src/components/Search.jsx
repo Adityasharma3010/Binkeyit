@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { IoArrowBack, IoSearch } from "react-icons/io5";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
+import useMobile from "../hooks/useMobile";
 
 const Search = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
+  const [isMobile] = useMobile();
 
   useEffect(() => {
     const isSearch = location.pathname === "/search";
@@ -21,10 +23,21 @@ const Search = () => {
 
   return (
     <>
-      <div className="w-full min-w-[300px] lg:min-w-[420px] h-12 rounded-lg flex border items-center text-neutral-600 bg-slate-50 overflow-hidden group">
-        <button className="flex justify-center items-center p-3">
-          <FaSearch size={22} />
-        </button>
+      <div className="w-full h-11 lg:h-12 rounded-lg flex border items-center text-neutral-600 bg-slate-50 overflow-hidden group focus-within:border-primary-200 ">
+        <div>
+          {isMobile && isSearchPage ? (
+            <Link
+              to={"/"}
+              className="flex justify-center items-center p-2 m-1 group-focus-within:text-primary-200"
+            >
+              <IoArrowBack size={20} />
+            </Link>
+          ) : (
+            <button className="flex justify-center items-center p-3 group-focus-within:text-primary-200">
+              <IoSearch size={22} />
+            </button>
+          )}
+        </div>
         <div className="w-full flex self-stretch">
           {!isSearchPage ? (
             // not in search page
@@ -69,7 +82,7 @@ const Search = () => {
                   type="text"
                   placeholder="Search for atta dal and more."
                   autoFocus
-                  className="bg-transparent w-full h-full outline-none"
+                  className="bg-transparent w-full h-full outline-hidden"
                 />
               </div>
             </>
