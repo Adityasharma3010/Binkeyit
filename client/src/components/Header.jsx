@@ -49,18 +49,18 @@ const Header = () => {
             {/* Login And My Cart */}
             <div>
               {/* User icon display in mobile view only */}
-              <button className="text-neutral-600 lg:hidden">
+              <button className="text-neutral-600 lg:hidden cursor-pointer">
                 <FaRegCircleUser size={26} />
               </button>
               {/* Desktop login and cart */}
               <div className="hidden lg:flex items-center gap-10">
                 <button
                   onClick={redirectToLoginPage}
-                  className="text-[18px] leading-[1.15] font-normal px-2"
+                  className="text-[18px] leading-[1.15] font-normal px-2 cursor-pointer"
                 >
                   Login
                 </button>
-                <button className="flex items-center justify-center gap-2 bg-green-800 hover:bg-green-700 px-2 py-1 rounded-lg text-white h-[52px] w-[112px]">
+                <button className="flex items-center justify-center gap-2 bg-green-800 hover:bg-green-700 px-2 py-1 rounded-lg text-white h-13 w-28 cursor-pointer">
                   {/* Add to cart icon */}
                   <div className="hover:animate-cart">
                     <BsCart3 size={28} />

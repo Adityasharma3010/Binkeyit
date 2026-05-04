@@ -11,15 +11,24 @@ import jwt from "jsonwebtoken";
 
 export async function registerUserController(request, response) {
   try {
-    const { name, email, password } = request.body;
+    // const { name, email, password } = request.body;
 
-    if (!name || !email || !password) {
+    // if (!name || !email || !password) {
+    //   return response.status(400).json({
+    //     message: "provide email, name, password",
+    //     error: true,
+    //     success: false,
+    //   });
+    // }
+
+    if (!request.body || Object.keys(request.body).length === 0) {
       return response.status(400).json({
         message: "provide email, name, password",
         error: true,
         success: false,
       });
     }
+    const { name, email, password } = request.body;
 
     const user = await UserModel.findOne({ email });
 
@@ -51,6 +60,8 @@ export async function registerUserController(request, response) {
       html: verifyEmailTemplate({
         name,
         url: VerifyEmailUrl,
+        createdAt: save.createdAt,
+        logoUrl: `https://iili.io/B4ZATu4.webp`,
       }),
     });
 
@@ -139,7 +150,7 @@ export async function loginController(request, response) {
 
     if (!checkPassword) {
       return response.status(400).json({
-        message: "Check your password",
+        message: "Check Your Password",
         error: true,
         success: false,
       });
@@ -311,7 +322,7 @@ export async function forgotPasswordController(request, response) {
     });
 
     return response.json({
-      message: "check your email",
+      message: "Check Your Email",
       error: false,
       success: true,
     });

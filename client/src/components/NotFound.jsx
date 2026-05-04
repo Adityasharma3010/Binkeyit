@@ -35,7 +35,7 @@ const NotFound = () => {
           Uh, Ohh
         </h2>
         <h3
-          className="text-2xl font-bold font-mono text-white mt-[-40px] ml-[30px] 
+          className="text-2xl font-bold font-mono text-primary-200 mt-[-40px] ml-[30px] 
                        drop-shadow-[-5px_5px_0_rgba(0,0,0,0.7)]"
         >
           Sorry we can’t find what you are looking for 'cuz it’s so dark in here

@@ -73,3 +73,17 @@ body {
     inset 0 0 40px 2px #000,
     0 0 20px 4px rgba(13, 13, 10, 0.2);
 }
+
+/* Chrome / Edge autofill reveal button */
+/* input[type="password"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+  position: absolute;
+} */
+
+/* Edge/IE clear/reveal buttons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
