@@ -294,6 +294,57 @@ export async function forgotPasswordController(request, response) {
   try {
     const { email } = request.body;
 
+    const ip =
+      (request.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
+      request.socket.remoteAddress ||
+      "Unknown";
+
+    const ua = request.headers["user-agent"] || "";
+    const getDevice = (ua) => {
+      if (/mobile/i.test(ua)) return "Mobile";
+      if (/tablet|ipad/i.test(ua)) return "Tablet";
+      return "Desktop";
+    };
+    const getBrowser = (ua) => {
+      if (/edg\//i.test(ua)) return "Edge";
+      if (/opr\//i.test(ua)) return "Opera";
+      if (/chrome/i.test(ua)) return "Chrome";
+      if (/firefox/i.test(ua)) return "Firefox";
+      if (/safari/i.test(ua)) return "Safari";
+      return "Browser";
+    };
+    const device = `${getDevice(ua)} / ${getBrowser(ua)}`;
+
+    let location = "Unknown";
+    const isPrivateIp =
+      /^(::1|127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.)/.test(ip);
+
+    let lookupIp = ip;
+    if (isPrivateIp || ip === "Unknown") {
+      // On localhost the client IP is private; fall back to the machine's public IP
+      try {
+        const pubRes = await fetch("https://api.ipify.org?format=json");
+        const pubData = await pubRes.json();
+        lookupIp = pubData.ip;
+      } catch (_) {
+        lookupIp = null;
+      }
+    }
+
+    if (lookupIp) {
+      try {
+        const geoRes = await fetch(
+          `http://ip-api.com/json/${lookupIp}?fields=city,country,status`,
+        );
+        const geo = await geoRes.json();
+        if (geo.status === "success") {
+          location = [geo.city, geo.country].filter(Boolean).join(", ");
+        }
+      } catch (_) {
+        // geolocation failed, keep "Unknown"
+      }
+    }
+
     const user = await UserModel.findOne({ email });
 
     if (!user) {
@@ -318,6 +369,8 @@ export async function forgotPasswordController(request, response) {
       html: forgotPasswordTemplate({
         name: user.name,
         otp: otp,
+        device: device,
+        location: location,
       }),
     });
 
@@ -421,7 +474,7 @@ export async function resetpassword(request, response) {
 
     if (newPassword !== confirmPassword) {
       return response.status(400).json({
-        message: "newPassword and confirmPassword must be same.",
+        message: "New Password and Confirm Password must be same.",
         error: true,
         success: false,
       });

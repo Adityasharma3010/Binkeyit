@@ -1,4 +1,4 @@
-const forgotPasswordTemplate = ({ name, otp }) => {
+const forgotPasswordTemplate = ({ name, otp, device, location }) => {
   const imgBase = "https://adityasharma3010.github.io/svg-test";
   return `
 <!DOCTYPE html>
@@ -60,13 +60,13 @@ const forgotPasswordTemplate = ({ name, otp }) => {
                         <td align="center" width="33%" style="padding:8px 6px;">
                           <img src="${imgBase}/image-2.png" alt="Device" width="40" style="display:block;margin:0 auto;"/>
                           <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:6px;">Device</div>
-                          <div style="font-size:12px;color:#777;margin-top:2px;">This Browser</div>
+                          <div style="font-size:12px;color:#777;margin-top:2px;">${device}</div>
                         </td>
                         <!-- Location -->
                         <td align="center" width="33%" style="padding:8px 6px;">
                           <img src="${imgBase}/image-3.png" alt="Location" width="40" style="display:block;margin:0 auto;"/>
                           <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:6px;">Location</div>
-                          <div style="font-size:12px;color:#777;margin-top:2px;">India</div>
+                          <div style="font-size:12px;color:#777;margin-top:2px;">${location}</div>
                         </td>
                         <!-- Date -->
                         <td align="center" width="33%" style="padding:8px 6px;">

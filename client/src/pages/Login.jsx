@@ -40,8 +40,9 @@ const Login = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        setData;
-        ({
+        localStorage.setItem("accesstoken", res.data.data.accesstoken);
+        localStorage.setItem("refreshToken", res.data.data.refreshToken);
+        setData({
           email: "",
           password: "",
         });
