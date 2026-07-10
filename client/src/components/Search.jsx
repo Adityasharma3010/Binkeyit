@@ -19,8 +19,6 @@ const Search = () => {
     navigate("/search");
   };
 
-  console.log("Search: ", isSearchPage);
-
   return (
     <>
       <div className="w-full h-11 lg:h-12 rounded-lg flex border items-center text-neutral-600 bg-slate-50 overflow-hidden group focus-within:border-primary-200 ">
