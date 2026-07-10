@@ -12,6 +12,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    agreeTerms: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -19,10 +20,10 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -48,12 +49,12 @@ const Register = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        setData;
-        ({
+        setData({
           name: "",
           email: "",
           password: "",
           confirmPassword: "",
+          agreeTerms: false,
         });
         navigate("/login");
       }
@@ -136,6 +137,38 @@ const Register = () => {
                   {showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                name="agreeTerms"
+                checked={data.agreeTerms}
+                onChange={handleChange}
+                className="cursor-pointer w-4 h-4 accent-green-800"
+              />
+              <label htmlFor="agreeTerms" className="text-sm cursor-pointer">
+                I agree to the{" "}
+                <span className="relative inline-block group">
+                  <span className="font-semibold text-green-700 hover:text-green-800 underline underline-offset-2 cursor-pointer">
+                    Terms &amp; Conditions
+                  </span>
+                  <span
+                    className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+                      w-80 rounded-md bg-gray-900 text-white text-xs leading-snug px-3 py-2
+                      opacity-0 scale-75 origin-bottom
+                      group-hover:opacity-100 group-hover:scale-100
+                      transition-all duration-150 ease-out shadow-lg z-10"
+                  >
+                    Nothing to see here just that u wont get any product
+                    physically, but you will get the digital product.
+                    <span
+                      className="absolute top-full left-1/2 -translate-x-1/2
+                        border-4 border-transparent border-t-gray-900"
+                    ></span>
+                  </span>
+                </span>
+              </label>
             </div>
 
             <button
