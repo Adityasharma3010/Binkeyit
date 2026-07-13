@@ -107,32 +107,41 @@ const UserProfileAvatarEdit = ({ close }) => {
   return (
     <>
       <section
-        className="fixed inset-0 bg-neutral-900/60 p-4 flex items-center justify-center z-50"
+        className="fixed inset-0 bg-neutral-900/50 backdrop-blur-sm p-4 flex items-center justify-center z-50 animate-in fade-in duration-150"
         onClick={close}
       >
         <div
-          className="bg-white max-w-sm w-full rounded p-4 flex flex-col items-center justify-center relative"
+          className="bg-white max-w-xs w-full rounded-xl border border-gray-200 shadow-xl p-5 flex flex-col items-center relative animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200"
           onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={close}
-            className="absolute top-3 right-3 text-neutral-500 hover:text-red-500 transition-colors"
+            className="absolute top-3 right-3 p-1.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <FiX size={20} />
           </button>
 
-          <div className="relative mb-4 mt-4">
+          <div className="w-full mb-5 pb-3 border-b border-gray-100">
+            <h3 className="text-sm font-semibold text-gray-900">
+              Update profile photo
+            </h3>
+            <p className="text-xs text-gray-500 mt-0.5">
+              JPG, PNG, or GIF. Max size 5MB.
+            </p>
+          </div>
+
+          <div className="relative mb-2">
             <label htmlFor="uploadProfile" className="cursor-pointer">
-              <div className="w-20 h-20 flex items-center justify-center rounded-full overflow-hidden drop-shadow-sm relative group">
+              <div className="w-20 h-20 flex items-center justify-center rounded-full overflow-hidden bg-gray-50 ring-1 ring-gray-200 relative group">
                 {hasValidAvatar ? (
                   <img
                     alt={user?.name || "User"}
                     src={displayAvatar}
-                    className="w-full h-full"
+                    className="w-full h-full object-cover"
                     onLoad={() => setIsImageLoading(false)}
                   />
                 ) : (
-                  <FaRegUserCircle size={65} />
+                  <FaRegUserCircle size={60} className="text-gray-300" />
                 )}
 
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -144,13 +153,17 @@ const UserProfileAvatarEdit = ({ close }) => {
             {hasValidAvatar && (
               <button
                 onClick={handleRemoveAvatar}
-                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transition-colors"
+                className="absolute -top-1 -right-1 bg-white text-red-500 border border-gray-200 rounded-full p-1 hover:bg-red-50 hover:border-red-200 shadow-sm transition-colors"
                 title="Remove Avatar"
               >
                 <FiX size={14} />
               </button>
             )}
           </div>
+
+          <p className="text-xs text-gray-400 mb-4">
+            Click the photo to choose a new one
+          </p>
 
           <form
             className="w-full flex flex-col items-center"
@@ -170,10 +183,10 @@ const UserProfileAvatarEdit = ({ close }) => {
             <button
               type="submit"
               disabled={isSubmitDisabled}
-              className={`px-4 py-1 rounded text-sm my-3 w-full max-w-[120px] transition-colors border ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium w-full max-w-[140px] transition-colors ${
                 !isSubmitDisabled
-                  ? "border-primary-200 bg-white hover:bg-primary-200 text-black cursor-pointer"
-                  : "border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed"
+                  ? "bg-primary-100 hover:bg-primary-200 text-white cursor-pointer"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
               }`}
             >
               {loading
