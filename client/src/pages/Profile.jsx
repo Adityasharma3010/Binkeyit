@@ -63,7 +63,8 @@ const Profile = () => {
 
   return (
     <>
-      <div className="w-full bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
+      {/* <div className="w-full bg-white rounded-xl border border-gray-200 p-6 sm:p-8"> */}
+      <div className="w-full bg-white py-2! p-6 sm:p-8">
         <div className="mb-6 pb-4 border-b border-gray-100">
           <h2 className="text-xl font-semibold text-gray-900">
             Profile Overview
@@ -90,7 +91,7 @@ const Profile = () => {
             <p className="text-sm font-medium text-gray-900">{user.name}</p>
             <p className="text-xs text-gray-500">{user.email}</p>
             <button
-              className="text-xs font-medium text-primary-200 hover:text-primary-300 mt-1 cursor-pointer"
+              className="text-xs font-medium text-primary-200 hover:text-primary-100 mt-1 cursor-pointer"
               onClick={() => setOpenProfileAvatarEdit(true)}
             >
               Change photo
@@ -168,7 +169,7 @@ const Profile = () => {
           <div className="flex justify-end mt-6 pt-4 border-t border-gray-100">
             <button
               disabled={loading}
-              className="bg-primary-200 hover:bg-primary-300 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-primary-200 hover:bg-primary-100 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
             >
               {loading ? "Saving..." : "Save Changes"}
             </button>
