@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import logo from "../assets/logo.webp";
 import Search from "./Search";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import useMobile from "../hooks/useMobile";
+import useClickOutside from "../hooks/useClickOutside";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
@@ -16,14 +17,24 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user);
   const [openUserMenu, setOpenUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
 
   const redirectToLoginPage = () => {
     navigate("/login");
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = useCallback(() => {
     setOpenUserMenu(false);
-  };
+  }, []);
+
+  useClickOutside(userMenuRef, handleCloseUserMenu, openUserMenu);
+
+  // Close on route change (back/forward nav, programmatic nav, etc.)
+  const [prevPathname, setPrevPathname] = useState(location.pathname);
+  if (prevPathname !== location.pathname) {
+    setPrevPathname(location.pathname);
+    setOpenUserMenu(false);
+  }
 
   const handleMobileUser = () => {
     if (!user._id) {
@@ -76,7 +87,7 @@ const Header = () => {
               {/* Desktop login and cart */}
               <div className="hidden lg:flex items-center gap-10">
                 {user?._id ? (
-                  <div className="relative">
+                  <div className="relative" ref={userMenuRef}>
                     <div
                       className="flex items-center select-none gap-1 cursor-pointer"
                       onClick={() => setOpenUserMenu((prev) => !prev)}
@@ -89,8 +100,8 @@ const Header = () => {
                       )}
                     </div>
                     {openUserMenu && (
-                      <div className="absolute right-0 top-13 lg:shadow-lg rounded-b-sm flex flex-col">
-                        <div className="bg-white rounded-b-sm py-2 min-w-52">
+                      <div className="absolute right-0 top-full mt-3 flex flex-col animate-in fade-in slide-in-from-top-2 duration-150">
+                        <div className="bg-white rounded-lg border border-zinc-100 shadow-lg shadow-zinc-200/60 py-2 min-w-52">
                           <UserMenu close={handleCloseUserMenu} />
                         </div>
                       </div>

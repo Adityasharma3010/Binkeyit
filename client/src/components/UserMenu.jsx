@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Divider from "./Divider";
 import Axios from "./../utils/Axios";
@@ -8,6 +8,22 @@ import { logout } from "../store/userSlice";
 import { toast } from "react-hot-toast";
 import AxiosToastError from "./../utils/AxiosToastError";
 import { HiOutlineExternalLink } from "react-icons/hi";
+
+const menuItemClass = ({ isActive }) =>
+  `mx-2 px-2 py-2 rounded-md transition-colors duration-150 focus-visible:outline-none ${
+    isActive
+      ? "bg-green-50 text-green-800 font-medium"
+      : "hover:bg-zinc-100 active:bg-zinc-200 focus-visible:bg-zinc-100"
+  }`;
+
+const menuLinks = [
+  { to: "/dashboard/category", label: "Category" },
+  { to: "/dashboard/subcategory", label: "Sub Category" },
+  { to: "/dashboard/upload-product", label: "Upload Product" },
+  { to: "/dashboard/product", label: "Product" },
+  { to: "/dashboard/myorders", label: "My Orders" },
+  { to: "/dashboard/address", label: "Saved Address" },
+];
 
 const UserMenu = ({ close }) => {
   const user = useSelector((state) => state?.user);
@@ -43,75 +59,41 @@ const UserMenu = ({ close }) => {
   return (
     <>
       <div>
-        <div className="px-4">
-          <div className="font-semibold">My Account</div>
-          <div className="text-sm flex items-center gap-2">
+        <div>
+          <div className="px-4 text-xs font-semibold uppercase tracking-wide text-neutral-400">
+            My Account
+          </div>
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/profile"}
+            className="text-sm flex items-center justify-between gap-2 mt-0.5 font-medium mx-2 px-2 py-1.5 rounded-md transition-colors duration-150 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:outline-none focus-visible:bg-zinc-100 group"
+          >
             <span className="max-w-52 text-ellipsis line-clamp-1">
               {user?.name || user?.mobile}
             </span>
-            <Link
-              onClick={handleClose}
-              to={"/dashboard/profile"}
-              className="hover:text-primary-200"
-            >
-              <HiOutlineExternalLink size={15} />
-            </Link>
-          </div>
+            <HiOutlineExternalLink
+              size={15}
+              className="text-neutral-400 group-hover:text-primary-200 transition-colors duration-150 shrink-0"
+            />
+          </Link>
         </div>
 
         <Divider />
 
         <div className="text-sm grid gap-0.5">
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/category"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            Category
-          </Link>
-
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/subcategory"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            Sub Category
-          </Link>
-
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/upload-product"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            Upload Product
-          </Link>
-
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/product"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            Product
-          </Link>
-
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/myorders"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            My Orders
-          </Link>
-
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/address"}
-            className="px-4 py-1 hover:bg-zinc-100"
-          >
-            Saved Address
-          </Link>
+          {menuLinks.map((item) => (
+            <NavLink
+              key={item.to}
+              onClick={handleClose}
+              to={item.to}
+              className={menuItemClass}
+            >
+              {item.label}
+            </NavLink>
+          ))}
 
           <button
-            className="text-left px-4 py-1 hover:bg-zinc-100"
+            className="text-left mx-2 px-2 py-2 rounded-md transition-colors duration-150 text-red-600 hover:bg-red-50 active:bg-red-100 focus-visible:outline-none focus-visible:bg-red-50 cursor-pointer"
             onClick={handleLogout}
           >
             Logout
