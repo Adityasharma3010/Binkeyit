@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import notFoundBg from "../assets/nothing here yet.webp";
+import notFoundBg from "../assets/notfound-404-error.webp";
 
 const NotFound = () => {
   useEffect(() => {
