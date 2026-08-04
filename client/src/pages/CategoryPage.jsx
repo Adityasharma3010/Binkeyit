@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import UploadCategoryModel from "../components/UploadCategoryModel";
 import Loading from "../components/Loading";
 import NoData from "../components/NoData";
@@ -8,7 +8,7 @@ import EditCategory from "../components/EditCategory";
 import ConfirmBox from "../components/ConfirmBox";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
-import { FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiTrash2, FiArrowUp, FiArrowDown } from "react-icons/fi";
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
@@ -23,6 +23,20 @@ const CategoryPage = () => {
   const [deleteCategory, setDeleteCategory] = useState({
     _id: "",
   });
+  const [sortOrder, setSortOrder] = useState("");
+
+  const displayData = useMemo(() => {
+    if (!sortOrder) return categoryData;
+    return [...categoryData].sort((a, b) =>
+      sortOrder === "asc"
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name)
+    );
+  }, [categoryData, sortOrder]);
+
+  const toggleSort = () => {
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
 
   const fetchCategory = async () => {
     try {
@@ -75,19 +89,29 @@ const CategoryPage = () => {
           </p>
         </div>
 
-        <button
-          className="flex items-center gap-1.5 text-sm font-medium bg-primary-100 hover:bg-primary-200 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
-          onClick={() => setOpenUploadCategory(true)}
-        >
-          <FiPlus size={16} />
-          Add Category
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleSort}
+            className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-lg border transition-colors cursor-pointer ${sortOrder ? "border-primary-200 bg-primary-50/30 text-primary-200" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+          >
+            {sortOrder === "desc" ? <FiArrowDown size={14} /> : <FiArrowUp size={14} />}
+            A-Z
+          </button>
+
+          <button
+            className="flex items-center gap-1.5 text-sm font-medium bg-primary-100 hover:bg-primary-200 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
+            onClick={() => setOpenUploadCategory(true)}
+          >
+            <FiPlus size={16} />
+            Add Category
+          </button>
+        </div>
       </div>
 
       {!categoryData[0] && !loading && <NoData />}
 
       <div className="pt-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-        {categoryData.map((category) => {
+        {displayData.map((category) => {
           return (
             <div
               key={category._id}

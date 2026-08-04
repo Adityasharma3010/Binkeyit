@@ -14,6 +14,7 @@ const EditCategory = ({ close, fetchData, data: CategoryData }) => {
   });
   const [loading, setLoading] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleOnChange = (e) => {
@@ -51,27 +52,41 @@ const EditCategory = ({ close, fetchData, data: CategoryData }) => {
 
   const handleUploadCategoryImage = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+    processFile(file);
+  };
 
-    if (!file) {
-      return;
-    }
-
+  const processFile = async (file) => {
     setIsImageLoading(true);
-
     try {
       const response = await UploadImage(file);
       const { data: ImageResponse } = response;
-      setData((preve) => {
-        return {
-          ...preve,
-          image: ImageResponse.data.url,
-        };
-      });
+      setData((preve) => ({
+        ...preve,
+        image: ImageResponse.data.url,
+      }));
     } catch (error) {
       AxiosToastError(error);
     } finally {
       setIsImageLoading(false);
     }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) processFile(file);
   };
 
   const handleRemoveImage = () => {
@@ -140,9 +155,14 @@ const EditCategory = ({ close, fetchData, data: CategoryData }) => {
             <div className="grid gap-1.5">
               <p className="text-sm font-medium text-gray-700">Image</p>
 
-              <div className="relative">
+              <div
+                className="relative"
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
                 <label htmlFor="uploadCategoryImage" className="cursor-pointer">
-                  <div className="flex items-center gap-4 px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 hover:border-primary-200 hover:bg-white transition-colors">
+                  <div className={`flex items-center gap-4 px-4 py-3 rounded-lg border bg-gray-50 transition-colors ${isDragging ? "border-primary-200 bg-primary-50/30" : "border-gray-200 hover:border-primary-200 hover:bg-white"}`}>
                     <div className="w-36 h-36 rounded-lg overflow-hidden bg-white ring-1 ring-gray-200 flex items-center justify-center shrink-0">
                       {hasValidImage ? (
                         <img
