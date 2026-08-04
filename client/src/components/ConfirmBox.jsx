@@ -1,42 +1,51 @@
 import React from "react";
-import { FiX } from "react-icons/fi";
+import { FiX, FiAlertTriangle } from "react-icons/fi";
 
 const ConfirmBox = ({ cancel, confirm, close }) => {
   return (
-    <>
-      <div className="fixed inset-0 z-50 bg-neutral-800/70 p-4 flex justify-center items-center">
-        <div className="bg-white w-full max-w-md p-4 rounded relative animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className="text-sm font-semibold text-gray-900">
-              Permanent Deleted
-            </h3>
+    <section
+      className="fixed inset-0 z-50 bg-neutral-900/50 backdrop-blur-sm p-4 flex justify-center items-center animate-in fade-in duration-150"
+      onClick={close}
+    >
+      <div
+        className="bg-white w-full max-w-sm rounded-xl border border-gray-200 shadow-xl p-5 relative animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={close}
+          className="absolute top-3 right-3 p-1.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
+        >
+          <FiX size={20} />
+        </button>
 
-            <button
-              onClick={close}
-              className="absolute top-2 right-2 p-1.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              <FiX size={25} />
-            </button>
+        <div className="flex flex-col items-center text-center pt-2 pb-4">
+          <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-3">
+            <FiAlertTriangle size={24} className="text-red-500" />
           </div>
+          <h3 className="text-sm font-semibold text-gray-900">
+            Delete permanently?
+          </h3>
+          <p className="text-xs text-gray-500 mt-1">
+            This action cannot be undone.
+          </p>
+        </div>
 
-          <p className="my-4">Are you Sure?</p>
-          <div className="w-fit ml-auto flex items-center gap-3">
-            <button
-              onClick={confirm}
-              className="px-4 py-1 border rounded border-red-500 text-red-500 hover:bg-red-500 hover:text-white cursor-pointer"
-            >
-              Confirm
-            </button>
-            <button
-              onClick={cancel}
-              className="px-4 py-1 border rounded border-green-600 text-green-600 hover:bg-green-600 hover:text-white cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
+        <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+          <button
+            onClick={cancel}
+            className="flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={confirm}
+            className="flex-1 px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors cursor-pointer"
+          >
+            Delete
+          </button>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

@@ -16,7 +16,7 @@ const NotFound = () => {
 
   return (
     <div
-      className="min-h-[78vh] w-screen flex flex-col justify-center items-center bg-contain bg-no-repeat overflow-hidden relative bg-center"
+      className="min-h-[78vh] w-screen flex flex-col justify-center items-center bg-cover bg-no-repeat overflow-hidden relative bg-center"
       style={{
         backgroundImage: `url(${notFoundBg})`,
       }}
