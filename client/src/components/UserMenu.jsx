@@ -8,6 +8,7 @@ import { logout } from "../store/userSlice";
 import { toast } from "react-hot-toast";
 import AxiosToastError from "./../utils/AxiosToastError";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import isAdmin from "../utils/isAdmin";
 
 const menuItemClass = ({ isActive }) =>
   `mx-2 px-2 py-2 rounded-md transition-colors duration-150 focus-visible:outline-none ${
@@ -29,10 +30,10 @@ const UserMenu = ({ close }) => {
   const user = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAdmin = user?.role === "ADMIN";
+  const isAdminUser = isAdmin(user?.role);
 
   const filteredMenuLinks = menuLinks.filter(
-    (item) => !item.isAdmin || (item.isAdmin && isAdmin),
+    (item) => !item.isAdmin || (item.isAdmin && isAdminUser),
   );
 
   const handleLogout = async () => {
