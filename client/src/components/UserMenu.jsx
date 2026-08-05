@@ -74,9 +74,16 @@ const UserMenu = ({ close }) => {
             to={"/dashboard/profile"}
             className="text-sm flex items-center justify-between gap-2 mt-0.5 font-medium mx-2 px-2 py-1.5 rounded-md transition-colors duration-150 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:outline-none focus-visible:bg-zinc-100 group"
           >
-            <span className="max-w-52 text-ellipsis line-clamp-1">
-              {user?.name || user?.mobile}
-            </span>
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-ellipsis line-clamp-1">
+                {user?.name || user?.mobile}
+              </span>
+              {isAdminUser && (
+                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-primary-100/20 text-primary-200 uppercase shrink-0">
+                  Admin
+                </span>
+              )}
+            </div>
             <HiOutlineExternalLink
               size={15}
               className="text-neutral-400 group-hover:text-primary-200 transition-colors duration-150 shrink-0"

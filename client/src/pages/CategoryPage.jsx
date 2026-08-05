@@ -42,7 +42,7 @@ const CategoryPage = () => {
 
     if (search.trim()) {
       filtered = filtered.filter((c) =>
-        c.name.toLowerCase().includes(search.trim().toLowerCase())
+        c.name.toLowerCase().includes(search.trim().toLowerCase()),
       );
     }
 
@@ -131,7 +131,10 @@ const CategoryPage = () => {
       {categoryData.length > 0 && (
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4 p-1.5 bg-white rounded-xl border border-gray-200">
           <div className="relative flex-1">
-            <FiSearch size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiSearch
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="text"
               placeholder="Search categories..."
@@ -145,15 +148,23 @@ const CategoryPage = () => {
 
           <div className="flex items-center gap-1">
             <button
-              onClick={() => setSortOrder((prev) => prev === "asc" ? "" : "asc")}
+              onClick={() =>
+                setSortOrder((prev) => (prev === "asc" ? "" : "asc"))
+              }
               className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-2 rounded-lg transition-colors cursor-pointer shrink-0 ${sortOrder === "asc" ? "bg-primary-100/20 text-primary-200" : "text-gray-500 hover:bg-gray-100"}`}
             >
-              {sortOrder === "asc" ? <FiArrowDown size={13} /> : <FiArrowUp size={13} />}
+              {sortOrder === "asc" ? (
+                <FiArrowDown size={13} />
+              ) : (
+                <FiArrowUp size={13} />
+              )}
               A-Z
             </button>
 
             <button
-              onClick={() => setSortOrder((prev) => prev === "oldest" ? "" : "oldest")}
+              onClick={() =>
+                setSortOrder((prev) => (prev === "oldest" ? "" : "oldest"))
+              }
               className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-2 rounded-lg transition-colors cursor-pointer shrink-0 ${sortOrder === "oldest" ? "bg-primary-100/20 text-primary-200" : "text-gray-500 hover:bg-gray-100"}`}
             >
               <FiClock size={13} />
@@ -163,21 +174,21 @@ const CategoryPage = () => {
             <div className="h-6 w-px bg-gray-200 mx-0.5" />
 
             <div className="flex items-center gap-0.5 shrink-0">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-lg transition-colors cursor-pointer ${viewMode === "grid" ? "bg-gray-100 text-gray-800" : "text-gray-400 hover:text-gray-600"}`}
-              title="Grid view"
-            >
-              <FiGrid size={14} />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={`p-2 rounded-lg transition-colors cursor-pointer ${viewMode === "list" ? "bg-gray-100 text-gray-800" : "text-gray-400 hover:text-gray-600"}`}
-              title="List view"
-            >
-              <FiList size={14} />
-            </button>
-          </div>
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-2 rounded-lg transition-colors cursor-pointer ${viewMode === "grid" ? "bg-gray-100 text-gray-800" : "text-gray-400 hover:text-gray-600"}`}
+                title="Grid view"
+              >
+                <FiGrid size={14} />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-2 rounded-lg transition-colors cursor-pointer ${viewMode === "list" ? "bg-gray-100 text-gray-800" : "text-gray-400 hover:text-gray-600"}`}
+                title="List view"
+              >
+                <FiList size={14} />
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -193,7 +204,7 @@ const CategoryPage = () => {
               className="relative bg-white rounded-xl border border-gray-200 group hover:shadow-lg hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-200"
             >
               {/* Action buttons */}
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+              <div className="absolute top-2 right-2 flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
                 <button
                   onClick={() => {
                     setOpenEdit(true);
@@ -229,7 +240,10 @@ const CategoryPage = () => {
 
               {/* Name */}
               <div className="px-3 pb-3">
-                <p className="text-xs sm:text-sm font-medium text-gray-800 text-center truncate" title={category.name}>
+                <p
+                  className="text-xs sm:text-sm font-medium text-gray-800 text-center truncate"
+                  title={category.name}
+                >
                   {category.name}
                 </p>
               </div>
@@ -254,7 +268,10 @@ const CategoryPage = () => {
                 />
               </div>
 
-              <p className="text-sm font-medium text-gray-800 truncate flex-1 min-w-0" title={category.name}>
+              <p
+                className="text-sm font-medium text-gray-800 truncate flex-1 min-w-0"
+                title={category.name}
+              >
                 {category.name}
               </p>
 
@@ -292,7 +309,8 @@ const CategoryPage = () => {
           </div>
           <p className="text-sm font-medium text-gray-500">No results found</p>
           <p className="text-xs text-gray-400 mt-1">
-            No categories match "<span className="text-gray-500">{search}</span>"
+            No categories match "<span className="text-gray-500">{search}</span>
+            "
           </p>
         </div>
       )}
