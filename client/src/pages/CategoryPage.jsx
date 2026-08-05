@@ -17,6 +17,7 @@ import {
   FiSearch,
   FiGrid,
   FiList,
+  FiClock,
 } from "react-icons/fi";
 
 const CategoryPage = () => {
@@ -46,19 +47,19 @@ const CategoryPage = () => {
     }
 
     if (sortOrder) {
-      filtered = [...filtered].sort((a, b) =>
-        sortOrder === "asc"
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name)
-      );
+      filtered = [...filtered].sort((a, b) => {
+        if (sortOrder === "asc") return a.name.localeCompare(b.name);
+        if (sortOrder === "desc") return b.name.localeCompare(a.name);
+        if (sortOrder === "newest")
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        if (sortOrder === "oldest")
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        return 0;
+      });
     }
 
     return filtered;
   }, [categoryData, sortOrder, search]);
-
-  const toggleSort = () => {
-    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
 
   const fetchCategory = async () => {
     try {
@@ -128,7 +129,7 @@ const CategoryPage = () => {
 
       {/* Toolbar */}
       {categoryData.length > 0 && (
-        <div className="flex items-center gap-2 mb-4 p-1.5 bg-white rounded-xl border border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4 p-1.5 bg-white rounded-xl border border-gray-200">
           <div className="relative flex-1">
             <FiSearch size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
@@ -140,19 +141,28 @@ const CategoryPage = () => {
             />
           </div>
 
-          <div className="h-6 w-px bg-gray-200" />
+          <div className="hidden sm:block h-6 w-px bg-gray-200" />
 
-          <button
-            onClick={toggleSort}
-            className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-2 rounded-lg transition-colors cursor-pointer shrink-0 ${sortOrder ? "bg-primary-100/20 text-primary-200" : "text-gray-500 hover:bg-gray-100"}`}
-          >
-            {sortOrder === "desc" ? <FiArrowDown size={13} /> : <FiArrowUp size={13} />}
-            A-Z
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setSortOrder((prev) => prev === "asc" ? "" : "asc")}
+              className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-2 rounded-lg transition-colors cursor-pointer shrink-0 ${sortOrder === "asc" ? "bg-primary-100/20 text-primary-200" : "text-gray-500 hover:bg-gray-100"}`}
+            >
+              {sortOrder === "asc" ? <FiArrowDown size={13} /> : <FiArrowUp size={13} />}
+              A-Z
+            </button>
 
-          <div className="h-6 w-px bg-gray-200" />
+            <button
+              onClick={() => setSortOrder((prev) => prev === "oldest" ? "" : "oldest")}
+              className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-2 rounded-lg transition-colors cursor-pointer shrink-0 ${sortOrder === "oldest" ? "bg-primary-100/20 text-primary-200" : "text-gray-500 hover:bg-gray-100"}`}
+            >
+              <FiClock size={13} />
+              {sortOrder === "oldest" ? "Latest" : "Oldest"}
+            </button>
 
-          <div className="flex items-center gap-0.5 shrink-0">
+            <div className="h-6 w-px bg-gray-200 mx-0.5" />
+
+            <div className="flex items-center gap-0.5 shrink-0">
             <button
               onClick={() => setViewMode("grid")}
               className={`p-2 rounded-lg transition-colors cursor-pointer ${viewMode === "grid" ? "bg-gray-100 text-gray-800" : "text-gray-400 hover:text-gray-600"}`}
@@ -167,6 +177,7 @@ const CategoryPage = () => {
             >
               <FiList size={14} />
             </button>
+          </div>
           </div>
         </div>
       )}

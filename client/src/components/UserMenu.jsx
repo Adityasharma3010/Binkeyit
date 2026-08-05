@@ -17,10 +17,10 @@ const menuItemClass = ({ isActive }) =>
   }`;
 
 const menuLinks = [
-  { to: "/dashboard/category", label: "Category" },
-  { to: "/dashboard/subcategory", label: "Sub Category" },
-  { to: "/dashboard/upload-product", label: "Upload Product" },
-  { to: "/dashboard/product", label: "Product" },
+  { to: "/dashboard/category", label: "Category", isAdmin: true },
+  { to: "/dashboard/subcategory", label: "Sub Category", isAdmin: true },
+  { to: "/dashboard/upload-product", label: "Upload Product", isAdmin: true },
+  { to: "/dashboard/product", label: "Product", isAdmin: true },
   { to: "/dashboard/myorders", label: "My Orders" },
   { to: "/dashboard/address", label: "Saved Address" },
 ];
@@ -29,6 +29,11 @@ const UserMenu = ({ close }) => {
   const user = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAdmin = user?.role === "ADMIN";
+
+  const filteredMenuLinks = menuLinks.filter(
+    (item) => !item.isAdmin || (item.isAdmin && isAdmin),
+  );
 
   const handleLogout = async () => {
     try {
@@ -81,7 +86,7 @@ const UserMenu = ({ close }) => {
         <Divider />
 
         <div className="text-sm grid gap-0.5">
-          {menuLinks.map((item) => (
+          {filteredMenuLinks.map((item) => (
             <NavLink
               key={item.to}
               onClick={handleClose}

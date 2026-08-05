@@ -64,7 +64,7 @@ const Profile = () => {
   return (
     <>
       {/* <div className="w-full bg-white rounded-xl border border-gray-200 p-6 sm:p-8"> */}
-      <div className="w-full bg-white py-2! p-6 sm:p-8">
+      <div className="w-full bg-white py-4! p-6 sm:p-8">
         <div className="mb-6 pb-4 border-b border-gray-100">
           <h2 className="text-xl font-semibold text-gray-900">
             Profile Overview
